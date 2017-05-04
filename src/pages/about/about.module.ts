@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { AboutPage } from './about';
 import { Geolocation } from '@ionic-native/geolocation';
+import { Device } from '@ionic-native/device';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,8 @@ import { Geolocation } from '@ionic-native/geolocation';
   ],
   exports: [
     AboutPage,
-    Geolocation
+    Geolocation,
+    Device
   ]
 })
 export class GpsModule {}
