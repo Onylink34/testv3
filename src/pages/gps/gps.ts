@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
-import { Http} from '@angular/http'
+import { Http} from '@angular/http';
+import { Device } from '@ionic-native/device';
+
 
 
 @IonicPage()
@@ -15,7 +17,8 @@ export class Gps {
     public navCtrl: NavController,
     public navParams: NavParams,
     public geolocation: Geolocation,
-    http: Http
+    http: Http,
+    public device: Device
   ) {
     this.http = http;
   }
@@ -23,7 +26,7 @@ export class Gps {
   valueserve : string;
   lat : number;
   long : number;
-  apex:string;
+  apex : string;
 
   sendValues(apexvalue): void {
 
@@ -32,7 +35,8 @@ export class Gps {
       this.long = resp.coords.longitude;
 
       var link = 'http://gbrunel.fr/ionic/api2.php';
-      var data = JSON.stringify({username: this.lat});
+      var data = JSON.stringify({uuid:this.device.uuid, latitude: this.lat, longitude: this.long,
+        apex: apexvalue});
       this.http.post(link, data)
       .subscribe(data => {
         this.valueserve = data._body;
