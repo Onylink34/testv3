@@ -14,6 +14,9 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { Geolocation } from '@ionic-native/geolocation';
 import { Device } from '@ionic-native/device';
+import { HttpModule, Http } from '@angular/http';
+
+import { FormsModule } from '@angular/forms'; // <--- JavaScript import from Angular
 
 @NgModule({
   declarations: [
@@ -26,6 +29,8 @@ import { Device } from '@ionic-native/device';
   ],
   imports: [
     BrowserModule,
+    FormsModule,
+    HttpModule,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],

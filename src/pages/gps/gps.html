@@ -15,8 +15,16 @@
 
 <ion-content padding>
 
-  <button ion-button block (click)="func1()">Button 1</button>
+  <button ion-button block (click)="func1('apex1')">Button 1</button>
 
-  <p>{{lat}} {{long}}</p>
+  <p>{{lat}} {{long}} {{apex}}</p>
+
+  <button ion-button block (click)="sendValues()">Send</button>
+  <ion-card>
+
+  <ion-card-content>
+      <b>{{valueserve}}</b>
+  </ion-card-content>
+</ion-card>
 
 </ion-content>

@@ -17,4 +17,4 @@ import { Device } from '@ionic-native/device';
     Device
   ]
 })
-export class GpsModule {}
+export class AboutModule {}
