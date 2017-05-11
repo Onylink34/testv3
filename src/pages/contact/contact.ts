@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { Http} from '@angular/http'
-import { DatePipe } from '@angular/common';
+import { Http} from '@angular/http';
+//import { DatePipe } from '@angular/common';
+import { Dateformat } from '../../providers/dateformat';
 
 @Component({
   selector: 'page-contact',
@@ -9,7 +10,7 @@ import { DatePipe } from '@angular/common';
 })
 export class ContactPage {
 
-  constructor(public navCtrl: NavController, http: Http) {
+  constructor(public navCtrl: NavController, http: Http, public dateFormat: Dateformat) {
     this.http = http;
   }
   http;
@@ -19,11 +20,9 @@ export class ContactPage {
   myDate;
   setDob;
 
-  getime():void {
-    this.myDate = new Date();
-    var datePipe = new DatePipe('fr-FR');
-    this.setDob = datePipe.transform(this.myDate, 'HH:mm:ss');
-    alert(this.setDob);
+  getimealert():void{
+    alert( this.dateFormat.gettime());
+    alert( this.dateFormat.getdate());
   }
 
 

@@ -18,6 +18,9 @@ import { HttpModule, Http } from '@angular/http';
 
 import { FormsModule } from '@angular/forms'; // <--- JavaScript import from Angular
 
+//providers maison
+import { Dateformat } from '../providers/dateformat'
+
 @NgModule({
   declarations: [
     MyApp,
@@ -47,7 +50,8 @@ import { FormsModule } from '@angular/forms'; // <--- JavaScript import from Ang
     SplashScreen,
     Geolocation,
     Device,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    Dateformat
   ]
 })
 export class AppModule {}

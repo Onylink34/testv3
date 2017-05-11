@@ -3,6 +3,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Http} from '@angular/http';
 import { Device } from '@ionic-native/device';
+import { Dateformat } from '../../providers/dateformat';
+
 
 
 
@@ -18,25 +20,29 @@ export class Gps {
     public navParams: NavParams,
     public geolocation: Geolocation,
     http: Http,
-    public device: Device
+    public device: Device,
+    public dateFormat: Dateformat
   ) {
     this.http = http;
   }
   http;
   valueserve : string;
-  lat : number;
-  long : number;
   apex : string;
 
   sendValues(apexvalue): void {
 
     this.geolocation.getCurrentPosition().then((resp) => {
-      this.lat = resp.coords.latitude;
-      this.long = resp.coords.longitude;
+      var lat : number = resp.coords.latitude;
+      var long : number = resp.coords.longitude;
 
+      var key : string = "create";
+      var time = this.dateFormat.gettime();
       var link = 'http://gbrunel.fr/ionic/api2.php';
-      var data = JSON.stringify({uuid:this.device.uuid, latitude: this.lat, longitude: this.long,
-        apex: apexvalue});
+      var uuid = this.device.uuid;
+      var data = JSON.stringify({key:key, uuid:uuid, latitude:lat, longitude:long, apex: apexvalue, time:time});
+
+      console.log(data);
+
       this.http.post(link, data)
       .subscribe(data => {
         this.valueserve = data._body;
@@ -47,15 +53,15 @@ export class Gps {
 
   }
 
-  func1(apexvalue){
-    this.geolocation.getCurrentPosition().then((resp) => {
-      this.lat = resp.coords.latitude;
-      this.long = resp.coords.longitude;
-      this.apex = apexvalue;
-    }).catch((error) => {
-      console.log('Error getting location', error);
-    });
-  }
+  // func1(apexvalue){
+  //   this.geolocation.getCurrentPosition().then((resp) => {
+  //     this.lat = resp.coords.latitude;
+  //     this.long = resp.coords.longitude;
+  //     this.apex = apexvalue;
+  //   }).catch((error) => {
+  //     console.log('Error getting location', error);
+  //   });
+  // }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad Gps');
