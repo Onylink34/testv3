@@ -8,6 +8,7 @@ import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { Gps } from '../pages/gps/gps';
+import { Test } from '../pages/test/test';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -20,6 +21,7 @@ import { FormsModule } from '@angular/forms'; // <--- JavaScript import from Ang
 
 //providers maison
 import { Dateformat } from '../providers/dateformat'
+import { Checkfunction } from '../components/checkfunction/checkfunction'
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import { Dateformat } from '../providers/dateformat'
     ContactPage,
     HomePage,
     TabsPage,
-    Gps
+    Gps,
+    Checkfunction,
+    Test
   ],
   imports: [
     BrowserModule,
@@ -43,7 +47,8 @@ import { Dateformat } from '../providers/dateformat'
     ContactPage,
     HomePage,
     TabsPage,
-    Gps
+    Gps,
+    Test
   ],
   providers: [
     StatusBar,
