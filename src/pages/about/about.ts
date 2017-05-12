@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Device } from '@ionic-native/device';
 
@@ -9,14 +9,17 @@ import { Device } from '@ionic-native/device';
   templateUrl: 'about.html'
 })
 export class AboutPage {
-  lat;
+  id;
   long;
   uid;
 
-  constructor(public navCtrl: NavController,public geolocation: Geolocation, public device: Device) {
+  constructor(public navCtrl: NavController, private navParams: NavParams) {
+    this.id = navParams.get('id');
+    let name = navParams.get('name');
 
-alert(this.device.uuid);
-    this.uid = this.device.uuid;
+    alert(this.id);
+// alert(this.device.uuid);
+    // this.uid = this.device.uuid;
     // this.geolocation.getCurrentPosition().then((resp) => {
     //   this.lat = resp.coords.latitude
     //   this.long = resp.coords.longitude
