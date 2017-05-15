@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
+//PAGES
 import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
@@ -10,23 +11,26 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { Gps } from '../pages/gps/gps';
 import { Test } from '../pages/test/test';
 
+//IONIC NATIVE PLUGINS
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-
 import { Geolocation } from '@ionic-native/geolocation';
+import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
 import { Device } from '@ionic-native/device';
-import { HttpModule, Http } from '@angular/http';
-
-import { FormsModule } from '@angular/forms'; // <--- JavaScript import from Angular
-
-//providers maison
-import { Dateformat } from '../providers/dateformat';
-import { AuthService } from '../providers/auth-service';
-import { Checkfunction } from '../components/checkfunction/checkfunction';
-
 import {SQLite, SQLiteObject} from '@ionic-native/sqlite';
 import { Network } from '@ionic-native/network';
 
+//ANGULAR PLUINGS
+import { FormsModule } from '@angular/forms';
+import { HttpModule, Http } from '@angular/http';
+
+//PROVIDERS
+import { Dateformat } from '../providers/dateformat';
+import { AuthService } from '../providers/auth-service';
+import { LocationTracker } from '../providers/location-tracker';
+
+//COMPONENTS
+import { Checkfunction } from '../components/checkfunction/checkfunction';
 
 @NgModule({
   declarations: [
@@ -60,10 +64,12 @@ import { Network } from '@ionic-native/network';
     Network,
     SplashScreen,
     Geolocation,
+    BackgroundGeolocation,
     Device,
     SQLite,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     Dateformat,
+    LocationTracker,
     AuthService
   ]
 })

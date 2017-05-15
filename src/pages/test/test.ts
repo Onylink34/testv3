@@ -2,10 +2,13 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, Platform, AlertController } from 'ionic-angular';
 import {AboutPage} from '../about/about';
 
+import { Network } from '@ionic-native/network';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { Device } from '@ionic-native/device';
+
 import { Dateformat } from '../../providers/dateformat';
-import { Network } from '@ionic-native/network';
+import { LocationTracker } from '../../providers/location-tracker';
+
 
 declare var navigator: any;
 declare var Connection: any;
@@ -33,10 +36,19 @@ export class Test {
     public device: Device,
     public dateFormat: Dateformat,
     public network:Network,
-    private alertCtrl: AlertController) {
+    private alertCtrl: AlertController,
+    public locationTracker: LocationTracker) {
 
     }
 
+    start(){
+      this.locationTracker.startTracking();
+    }
+
+    stop(){
+      this.locationTracker.stopTracking();
+    }
+    
     checkNetwork() {
     this.platform.ready().then(() => {
         var networkState = navigator.connection.type;
