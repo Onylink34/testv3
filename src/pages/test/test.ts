@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform, AlertController } from 'ionic-angular';
 import {AboutPage} from '../about/about';
 
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { Device } from '@ionic-native/device';
 import { Dateformat } from '../../providers/dateformat';
+import { Network } from '@ionic-native/network';
 
+declare var navigator: any;
+declare var Connection: any;
 /**
 * Generated class for the Test page.
 *
@@ -22,13 +25,38 @@ export class Test {
   // items = [];
   aboutPage = AboutPage;
   personList = [];
+  // public online:boolean=false;
+  online;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,
+  constructor(public navCtrl: NavController, private platform: Platform, public navParams: NavParams,
     private sqlite: SQLite,
     public device: Device,
-    public dateFormat: Dateformat) {
+    public dateFormat: Dateformat,
+    public network:Network,
+    private alertCtrl: AlertController) {
 
     }
+
+    checkNetwork() {
+    this.platform.ready().then(() => {
+        var networkState = navigator.connection.type;
+        var states = {};
+        states[Connection.UNKNOWN]  = 'Unknown connection';
+        states[Connection.ETHERNET] = 'Ethernet connection';
+        states[Connection.WIFI]     = 'WiFi connection';
+        states[Connection.CELL_2G]  = 'Cell 2G connection';
+        states[Connection.CELL_3G]  = 'Cell 3G connection';
+        states[Connection.CELL_4G]  = 'Cell 4G connection';
+        states[Connection.CELL]     = 'Cell generic connection';
+        states[Connection.NONE]     = 'No network connection';
+        let alert = this.alertCtrl.create({
+            title: "Connection Status",
+            subTitle: states[networkState],
+            buttons: ["OK"]
+        });
+        alert.present();
+    });
+}
 
     sendValues(apexvalue){
       var time = this.dateFormat.gettime();
@@ -69,10 +97,10 @@ export class Test {
             for(var i = 0; i < data.rows.length; i++) {
               //alert(data.rows.item(i).name);
               this.personList.push({
-                        name: data.rows.item(i).name,
-                        uuid: data.rows.item(i).uuid,
-                        apex: data.rows.item(i).apex
-                    });
+                name: data.rows.item(i).name,
+                uuid: data.rows.item(i).uuid,
+                apex: data.rows.item(i).apex
+              });
               // this.items.push({name: data.rows.item(i).name});
             }
           }
@@ -86,6 +114,19 @@ export class Test {
 
     }
 
+    networkinfo(){
+
+      this.network.onConnect().subscribe(res=>{
+        this.online="true";
+        console.log(this.online);
+
+      });
+
+      this.network.onDisconnect().subscribe(res=>{
+        this.online="false";
+        console.log(this.online);
+      });
+    }
 
     pushPage(){
       this.navCtrl.setRoot(AboutPage);

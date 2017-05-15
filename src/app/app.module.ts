@@ -25,6 +25,8 @@ import { AuthService } from '../providers/auth-service';
 import { Checkfunction } from '../components/checkfunction/checkfunction';
 
 import {SQLite, SQLiteObject} from '@ionic-native/sqlite';
+import { Network } from '@ionic-native/network';
+
 
 @NgModule({
   declarations: [
@@ -55,6 +57,7 @@ import {SQLite, SQLiteObject} from '@ionic-native/sqlite';
   ],
   providers: [
     StatusBar,
+    Network,
     SplashScreen,
     Geolocation,
     Device,
