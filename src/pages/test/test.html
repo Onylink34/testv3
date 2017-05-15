@@ -18,9 +18,16 @@
   <button ion-button block large color="secondary" (click)="sendValues('apex2')"> <ion-icon name="star-half"></ion-icon> Apex 2</button>
   <button ion-button block large color="light" (click)="sendValues('apex3')"><ion-icon name="star"></ion-icon> Apex 3</button>
 
-  <ion-list>
+
+  <!-- <ion-list>
   <ion-item href="#" *ngFor="let x of items" >
   {{x.name}}
+  </ion-item>
+  </ion-list> -->
+
+  <ion-list>
+  <ion-item *ngFor="let y of personList" >
+  {{y.name}} {{y.uuid}} {{y.apex}}
   </ion-item>
   </ion-list>
 <!-- <button ion-button block [navPush]="aboutPage">Go To About</button> -->

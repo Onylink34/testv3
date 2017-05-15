@@ -20,8 +20,9 @@ import { HttpModule, Http } from '@angular/http';
 import { FormsModule } from '@angular/forms'; // <--- JavaScript import from Angular
 
 //providers maison
-import { Dateformat } from '../providers/dateformat'
-import { Checkfunction } from '../components/checkfunction/checkfunction'
+import { Dateformat } from '../providers/dateformat';
+import { AuthService } from '../providers/auth-service';
+import { Checkfunction } from '../components/checkfunction/checkfunction';
 
 import {SQLite, SQLiteObject} from '@ionic-native/sqlite';
 
@@ -59,7 +60,8 @@ import {SQLite, SQLiteObject} from '@ionic-native/sqlite';
     Device,
     SQLite,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    Dateformat
+    Dateformat,
+    AuthService
   ]
 })
 export class AppModule {}

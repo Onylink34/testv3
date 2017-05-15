@@ -4,6 +4,7 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { Http} from '@angular/http';
 import { Device } from '@ionic-native/device';
 import { Dateformat } from '../../providers/dateformat';
+import { AuthService } from '../../providers/auth-service';
 
 
 
@@ -21,7 +22,8 @@ export class Gps {
     public geolocation: Geolocation,
     http: Http,
     public device: Device,
-    public dateFormat: Dateformat
+    public dateFormat: Dateformat,
+    public authService:AuthService
   ) {
     this.http = http;
   }
@@ -38,7 +40,8 @@ export class Gps {
       var key : string = "create";
       var time = this.dateFormat.gettime();
       var link = 'http://gbrunel.fr/ionic/api2.php';
-      var uuid = this.device.uuid;
+      var uuid = this.authService.getuuid();
+      alert(uuid);
       var data = JSON.stringify({key:key, uuid:uuid, latitude:lat, longitude:long, apex: apexvalue, time:time});
 
       console.log(data);

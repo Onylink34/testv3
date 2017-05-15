@@ -19,13 +19,15 @@ import { Dateformat } from '../../providers/dateformat';
 })
 export class Test {
   username='';
-  items = [];
+  // items = [];
   aboutPage = AboutPage;
+  personList = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private sqlite: SQLite,
     public device: Device,
     public dateFormat: Dateformat) {
+
     }
 
     sendValues(apexvalue){
@@ -61,11 +63,17 @@ export class Test {
 
           //alert(data.rows.length);
           //alert(data.rows.item(5).name);
-          this.items = [];
+          // this.items = [];
+          this.personList = [];
           if(data.rows.length > 0) {
             for(var i = 0; i < data.rows.length; i++) {
-              //alert(data.rows.item(i).name);�
-              this.items.push({name: data.rows.item(i).name});
+              //alert(data.rows.item(i).name);
+              this.personList.push({
+                        name: data.rows.item(i).name,
+                        uuid: data.rows.item(i).uuid,
+                        apex: data.rows.item(i).apex
+                    });
+              // this.items.push({name: data.rows.item(i).name});
             }
           }
 
