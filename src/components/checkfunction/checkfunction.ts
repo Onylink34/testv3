@@ -18,7 +18,7 @@ export class Checkfunction {
 
   ngOnInit(){
 
-    alert("tot")
+    // alert("tot");
   }
 
 }

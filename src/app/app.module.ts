@@ -23,6 +23,8 @@ import { FormsModule } from '@angular/forms'; // <--- JavaScript import from Ang
 import { Dateformat } from '../providers/dateformat'
 import { Checkfunction } from '../components/checkfunction/checkfunction'
 
+import {SQLite, SQLiteObject} from '@ionic-native/sqlite';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -55,6 +57,7 @@ import { Checkfunction } from '../components/checkfunction/checkfunction'
     SplashScreen,
     Geolocation,
     Device,
+    SQLite,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     Dateformat
   ]

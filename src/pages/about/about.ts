@@ -17,7 +17,7 @@ export class AboutPage {
     this.id = navParams.get('id');
     let name = navParams.get('name');
 
-    alert(this.id);
+    //alert(this.id);
 // alert(this.device.uuid);
     // this.uid = this.device.uuid;
     // this.geolocation.getCurrentPosition().then((resp) => {

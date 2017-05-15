@@ -7,16 +7,22 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Test</ion-title>
+    <ion-title>Page Test</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content checkfunction>
-<p>page test</p>
+  <button ion-button block large (click)="sendValues('apex1')"> <ion-icon name="star-outline"></ion-icon> Apex 1</button>
+  <button ion-button block large color="secondary" (click)="sendValues('apex2')"> <ion-icon name="star-half"></ion-icon> Apex 2</button>
+  <button ion-button block large color="light" (click)="sendValues('apex3')"><ion-icon name="star"></ion-icon> Apex 3</button>
 
-
+  <ion-list>
+  <ion-item href="#" *ngFor="let x of items" >
+  {{x.name}}
+  </ion-item>
+  </ion-list>
 <!-- <button ion-button block [navPush]="aboutPage">Go To About</button> -->
 <button ion-button (click)="pushPage()">
    Go to OtherPage
