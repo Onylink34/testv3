@@ -48,7 +48,7 @@ export class Test {
     stop(){
       this.locationTracker.stopTracking();
     }
-    
+
     checkNetwork() {
     this.platform.ready().then(() => {
         var networkState = navigator.connection.type;
@@ -97,7 +97,7 @@ export class Test {
 
         //data retrieve section
 
-        db.executeSql('select * from usernameListtest', {}).then((data) => {
+        db.executeSql('select * from usernameListtest where apex = ?', ["apex1"]).then((data) => {
 
           console.log(JSON.stringify(data));
 

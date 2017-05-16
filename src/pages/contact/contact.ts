@@ -3,6 +3,7 @@ import { NavController } from 'ionic-angular';
 import { Http} from '@angular/http';
 //import { DatePipe } from '@angular/common';
 import { Dateformat } from '../../providers/dateformat';
+import { AuthService } from '../../providers/auth-service';
 
 @Component({
   selector: 'page-contact',
@@ -10,7 +11,7 @@ import { Dateformat } from '../../providers/dateformat';
 })
 export class ContactPage {
 
-  constructor(public navCtrl: NavController, http: Http, public dateFormat: Dateformat) {
+  constructor(public navCtrl: NavController, http: Http, public dateFormat: Dateformat,public authService:AuthService) {
     this.http = http;
   }
   http;
@@ -18,7 +19,16 @@ export class ContactPage {
   str:string;
   remplir:string;
   myDate;
+
+  dataListTemps = [];
   setDob;
+
+  checkuuid2(){
+    this.dataListTemps.push({
+      id: this.authService.getidphone(),
+      uuid: this.authService.getuuid()
+      });
+  }
 
   getimealert():void{
     alert( this.dateFormat.gettime());
