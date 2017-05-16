@@ -69,6 +69,14 @@ export class LocationTracker {
 
   }
 
+  getLongitude():any{
+    return this.lng;
+  }
+
+  getLatitude():any{
+    return this.lat;
+  }
+
   stopTracking() {
 
     console.log('stopTracking');

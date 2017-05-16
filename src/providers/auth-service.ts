@@ -32,8 +32,8 @@ export class AuthService {
     setidession(id_s){
       this.idsession = id_s;
     }
-    getids(){
-      if(this.idsession != "") {return this.idsession;}
+    getidsession(){
+      return this.idsession;
     }
 
   }

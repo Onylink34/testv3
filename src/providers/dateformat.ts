@@ -19,6 +19,6 @@ export class Dateformat {
   getdate() {
     var myDate = new Date();
     var datePipe = new DatePipe('fr-FR');
-    return datePipe.transform(myDate, 'yyyyMMdd');
+    return datePipe.transform(myDate, 'yyyy-MM-dd');
   }
 }

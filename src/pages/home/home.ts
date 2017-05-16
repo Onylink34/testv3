@@ -3,10 +3,7 @@ import { NavController, Platform } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { AuthService } from '../../providers/auth-service';
-
 import { Device } from '@ionic-native/device';
-
-declare var oup: any;
 
 @Component({
   selector: 'page-home',
@@ -29,8 +26,12 @@ export class HomePage {
     private alertCtrl: AlertController,
     public authService:AuthService) {
 
-
     }
+
+    ionViewDidLoad(){
+      this.checkuuid();
+    }
+
 
     test(){
       this.checkuuid();
@@ -88,6 +89,8 @@ export class HomePage {
             for(var i = 0; i < data.rows.length; i++) {
               this.idphone = data.rows.item(i).id;
             }
+            this.authService.setuuid(this.uuid);
+            this.authService.setidphone(this.idphone);
           }
           else{this.adduuid();}
         }, (err) => {
@@ -95,8 +98,6 @@ export class HomePage {
         });
       })
       .catch(e => console.log(JSON.stringify(e)));
-      this.authService.setuuid(this.uuid);
-      this.authService.setidphone(this.idphone);
     }
 
     adduuid(){
@@ -110,7 +111,6 @@ export class HomePage {
         .then(() => console.log('Executed SQL'))
         .catch(e => console.log(e));
 
-
         db.executeSql('INSERT INTO phone(uuid) VALUES(?)', [this.uuid])
         .then(() => console.log('Executed SQL'))
         .catch(e => console.log(e));
@@ -121,13 +121,13 @@ export class HomePage {
             for(var i = 0; i < data.rows.length; i++) {
               this.idphone = data.rows.item(i).id;
             }
+            this.authService.setuuid(this.uuid);
+            this.authService.setidphone(this.idphone);
           }
         }, (err) => {
           console.log('Unable to execute sql: '+JSON.stringify(err));
         });
       })
       .catch(e => console.log(JSON.stringify(e)));
-      this.authService.setuuid(this.uuid);
-      this.authService.setidphone(this.idphone);
     }
   }

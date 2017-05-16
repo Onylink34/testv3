@@ -31,6 +31,9 @@ export class Test {
   // public online:boolean=false;
   online;
 
+  tlong;
+
+
   constructor(public navCtrl: NavController, private platform: Platform, public navParams: NavParams,
     private sqlite: SQLite,
     public device: Device,
@@ -41,6 +44,11 @@ export class Test {
 
     }
 
+    ionViewWillLeave(){
+      console.log('ionViewWillLeave BYE Test');
+    }
+
+
     start(){
       this.locationTracker.startTracking();
     }
@@ -48,6 +56,7 @@ export class Test {
     stop(){
       this.locationTracker.stopTracking();
     }
+
 
     checkNetwork() {
     this.platform.ready().then(() => {
@@ -143,6 +152,7 @@ export class Test {
     pushPage(){
       this.navCtrl.setRoot(AboutPage);
     }
+
 
     ionViewDidLoad() {
       console.log('ionViewDidLoad Test');
