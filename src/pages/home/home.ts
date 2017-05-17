@@ -13,9 +13,9 @@ import { Device } from '@ionic-native/device';
 export class HomePage {
   //VARIABLES
   dataListSession = [];
-  idphone;
-  dataListTemps = [];
-  uuid;
+  idphone="";
+  dataList = [];
+  uuid="";
 
   //CONSTRUCTOR
   constructor(
@@ -24,19 +24,90 @@ export class HomePage {
     public device: Device,
     public platform: Platform,
     private alertCtrl: AlertController,
-    public authService:AuthService) {
+    private authService:AuthService) {
 
     }
 
     ionViewDidLoad(){
-      this.checkuuid();
+      console.log("LOAD FUNCTION");
+      this.check_uuid();
+    }
+
+    ionViewWillEnter(){
+      this.dataList = [];
+      console.log("ENTER FUNCTION");
+      this.check_uuid();
+      this.checkdatasession();
     }
 
 
-    test(){
-      this.checkuuid();
-      this.checkuuid2();
+    check_uuid(){
+      if (this.idphone != "") {
+
+      } else {
+        this.uuid = this.device.uuid;
+        this.sqlite.create({
+          name: 'data.db',
+          location: 'default'
+        })
+        .then((db: SQLiteObject) => {
+          db.executeSql('CREATE TABLE IF NOT EXISTS phone(id INTEGER PRIMARY KEY AUTOINCREMENT,uuid)', {})
+          .then(() => console.log('Executed SQL'))
+          .catch(e => console.log(e));
+
+          db.executeSql('select * from phone where uuid = ?', [this.uuid]).then((data) => {
+            if(data.rows.length > 0) {
+              this.idphone = data.rows.item(0).id;
+              this.authService.setuuid(this.uuid);
+              this.authService.setidphone(this.idphone);
+            }
+            else{this.adduuid();}
+          }, (err) => {
+            console.log('Unable to execute sql: '+JSON.stringify(err));
+          });
+        })
+        .catch(e => console.log(JSON.stringify(e)));
+      }
     }
+
+    checkdatasession(){
+      if (this.idphone != "") {
+        this.sqlite.create({
+          name: 'data.db',
+          location: 'default'
+        })
+        .then((db: SQLiteObject) => {
+          db.executeSql('CREATE TABLE IF NOT EXISTS session(id INTEGER PRIMARY KEY AUTOINCREMENT,id_phone,score,start,end,date,globalGPS)', {})
+          .then(() => console.log('Executed SQL'))
+          .catch(e => console.log(e));
+
+
+          db.executeSql('select * from session where id_phone = ? AND end !="" ', [this.idphone]).then((data) => {
+            console.log(JSON.stringify(data));
+            if(data.rows.length > 0) {
+              this.dataList = [];
+              for(var i = 0; i < data.rows.length; i++) {
+                this.dataList.push({
+                  id:data.rows.item(i).id,
+                  id_phone: data.rows.item(i).id_phone,
+                  start: data.rows.item(i).start,
+                  end: data.rows.item(i).end,
+                  date: data.rows.item(i).date,
+                  score: data.rows.item(i).score
+                });
+              }
+            }
+          }).catch(e => console.log(e));;
+        })
+        .catch(e => console.log(JSON.stringify(e)));
+      } else {
+
+      }
+    }
+    // test(){
+    //   this.checkuuid();
+    //   this.checkuuid2();
+    // }
 
     deletetable(){
       this.sqlite.create({
@@ -64,42 +135,36 @@ export class HomePage {
       .catch(e => console.log(JSON.stringify(e)));
     }
 
-    // FUNCTIONS
-    checkuuid2(){
-      this.dataListTemps.push({
-        id: this.authService.getidphone(),
-        uuid: this.authService.getuuid()
-      });
-    }
 
-    checkuuid(){
-      this.uuid = this.device.uuid;
-      this.sqlite.create({
-        name: 'data.db',
-        location: 'default'
-      })
-      .then((db: SQLiteObject) => {
-        db.executeSql('CREATE TABLE IF NOT EXISTS phone(id INTEGER PRIMARY KEY AUTOINCREMENT,uuid)', {})
-        .then(() => console.log('Executed SQL'))
-        .catch(e => console.log(e));
 
-        db.executeSql('select * from phone where uuid = ?', [this.uuid]).then((data) => {
-          console.log(JSON.stringify(data));
-          if(data.rows.length > 0) {
-            for(var i = 0; i < data.rows.length; i++) {
-              this.idphone = data.rows.item(i).id;
-            }
-            this.authService.setuuid(this.uuid);
-            this.authService.setidphone(this.idphone);
-          }
-          else{this.adduuid();}
-        }, (err) => {
-          console.log('Unable to execute sql: '+JSON.stringify(err));
-        });
-      })
-      .catch(e => console.log(JSON.stringify(e)));
-    }
-
+    // checkuuid(){
+    //   this.uuid = this.device.uuid;
+    //   this.sqlite.create({
+    //     name: 'data.db',
+    //     location: 'default'
+    //   })
+    //   .then((db: SQLiteObject) => {
+    //     db.executeSql('CREATE TABLE IF NOT EXISTS phone(id INTEGER PRIMARY KEY AUTOINCREMENT,uuid)', {})
+    //     .then(() => console.log('Executed SQL'))
+    //     .catch(e => console.log(e));
+    //
+    //     db.executeSql('select * from phone where uuid = ?', [this.uuid]).then((data) => {
+    //       console.log(JSON.stringify(data));
+    //       if(data.rows.length > 0) {
+    //         for(var i = 0; i < data.rows.length; i++) {
+    //           this.idphone = data.rows.item(i).id;
+    //         }
+    //         this.authService.setuuid(this.uuid);
+    //         this.authService.setidphone(this.idphone);
+    //       }
+    //       else{this.adduuid();}
+    //     }, (err) => {
+    //       console.log('Unable to execute sql: '+JSON.stringify(err));
+    //     });
+    //   })
+    //   .catch(e => console.log(JSON.stringify(e)));
+    // }
+    //
     adduuid(){
       this.uuid = this.device.uuid;
       this.sqlite.create({
@@ -116,18 +181,12 @@ export class HomePage {
         .catch(e => console.log(e));
 
         db.executeSql('select * from phone where uuid = ?', [this.uuid]).then((data) => {
-          console.log(JSON.stringify(data));
           if(data.rows.length > 0) {
-            for(var i = 0; i < data.rows.length; i++) {
-              this.idphone = data.rows.item(i).id;
-            }
+            this.idphone = data.rows.item(0).id;
             this.authService.setuuid(this.uuid);
             this.authService.setidphone(this.idphone);
           }
-        }, (err) => {
-          console.log('Unable to execute sql: '+JSON.stringify(err));
         });
-      })
-      .catch(e => console.log(JSON.stringify(e)));
+      }).catch(e => console.log(JSON.stringify(e)));
     }
   }

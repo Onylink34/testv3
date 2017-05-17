@@ -5,6 +5,7 @@ import { ContactPage } from '../contact/contact';
 import { HomePage } from '../home/home';
 import { Gps } from '../gps/gps';
 import { Test } from '../test/test';
+import { Managebdd } from '../managebdd/managebdd';
 
 
 @Component({
@@ -17,6 +18,7 @@ export class TabsPage {
   tab3Root = ContactPage;
   tab4Root = Gps;
   tab5Root = Test;
+  tab6Root = Managebdd;
 
   constructor() {
 

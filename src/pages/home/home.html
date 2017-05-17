@@ -6,15 +6,25 @@
 
 <ion-content padding>
 
-  <button ion-button block large color="secondary" (click)="test()">Test</button>
-  <button ion-button block large color="light" (click)="deletesql()">Delete Row</button>
-  <button ion-button block large color="danger" (click)="deletetable()">Delete Table</button>
+  <button ion-button block  (click)="checkdatasession()">Test</button>
+  <button ion-button block  color="light" (click)="deletesql()">Delete Row</button>
+  <button ion-button block  color="secondary" (click)="deletetable()">Delete Table</button>
 
   <ion-list>
-  <ion-item *ngFor="let y of dataListTemps" >
-  {{y.id}} {{y.uuid}}
-  </ion-item>
+    <ion-item *ngFor="let y of dataList" >
+
+      <ion-card>
+        <ion-card-header>
+          Session N°{{y.id}}
+        </ion-card-header>
+        <ion-card-content>
+          <p>Le {{y.date}} de {{y.start}} à {{y.end}}</p>
+          <p>Score : <b>{{y.score}}</b> </p>
+        </ion-card-content>
+      </ion-card>
+
+    </ion-item>
   </ion-list>
 
-
+  <p>id : {{idphone}} / uuid : {{uuid}} {{testcheck}}</p>
 </ion-content>

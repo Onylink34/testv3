@@ -24,8 +24,8 @@ export class LocationTracker {
       desiredAccuracy: 0,
       stationaryRadius: 20,
       distanceFilter: 10,
-      debug: true,
-      interval: 2000
+      debug: false,
+      interval: 4000
     };
 
     this.backgroundGeolocation.configure(config).subscribe((location) => {

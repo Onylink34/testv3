@@ -10,6 +10,7 @@ import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { Gps } from '../pages/gps/gps';
 import { Test } from '../pages/test/test';
+import { Managebdd } from '../pages/managebdd/managebdd';
 
 //IONIC NATIVE PLUGINS
 import { StatusBar } from '@ionic-native/status-bar';
@@ -17,12 +18,12 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { Geolocation } from '@ionic-native/geolocation';
 import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
 import { Device } from '@ionic-native/device';
-import {SQLite, SQLiteObject} from '@ionic-native/sqlite';
+import {SQLite} from '@ionic-native/sqlite';
 import { Network } from '@ionic-native/network';
 
 //ANGULAR PLUINGS
 import { FormsModule } from '@angular/forms';
-import { HttpModule, Http } from '@angular/http';
+import { HttpModule } from '@angular/http';
 
 //PROVIDERS
 import { Dateformat } from '../providers/dateformat';
@@ -40,6 +41,7 @@ import { Checkfunction } from '../components/checkfunction/checkfunction';
     HomePage,
     TabsPage,
     Gps,
+    Managebdd,
     Checkfunction,
     Test
   ],
@@ -57,6 +59,7 @@ import { Checkfunction } from '../components/checkfunction/checkfunction';
     HomePage,
     TabsPage,
     Gps,
+    Managebdd,
     Test
   ],
   providers: [

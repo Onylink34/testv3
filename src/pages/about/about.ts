@@ -1,10 +1,15 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../../providers/auth-service';
+import { NavController } from 'ionic-angular';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
+
+//PAGES
+import {HomePage} from '../home/home';
 
 //PROVIDERS
 import { Dateformat } from '../../providers/dateformat';
 import { LocationTracker } from '../../providers/location-tracker';
+import { AuthService } from '../../providers/auth-service';
+
 
 
 @Component({
@@ -12,37 +17,49 @@ import { LocationTracker } from '../../providers/location-tracker';
   templateUrl: 'about.html'
 })
 export class AboutPage {
-
   remplir;
   idsession = "";
   id_phone = "";
+  score;
+
+  p_array;
+  r_array;
+  c_array;
 
   constructor(
     private sqlite: SQLite,
     public dateFormat: Dateformat,
     public locationTracker: LocationTracker,
-    public authService:AuthService) {
+    public authService:AuthService,
+    public navCtrl:NavController) {
 
     }
 
     ionViewDidLoad(){
       //console.log('ionViewDidLoad LOAD About Test');
       this.locationTracker.startTracking();
-      this.startsession();
+
     }
     ionViewDidEnter() {
+      this.startsession();
+      this.id_phone = this.authService.getidphone();
       // console.log('ionViewDidEnter ENTER About Test');
       // this.locationTracker.startTracking();
     }
     ionViewWillLeave(){
       // console.log('ionViewWillLeave BYE About Test');
-      // this.locationTracker.stopTracking();
+      this.locationTracker.stopTracking();
     }
 
     startsession(){
       if (this.idsession != "") {
+        this.remplir = "continue " + this.idsession;
 
       } else {
+        this.p_array = 0;
+        this.r_array = 0;
+        this.c_array = 0;
+
         this.sqlite.create({
           name: 'data.db',
           location: 'default'
@@ -77,11 +94,14 @@ export class AboutPage {
     }
 
     endsession(){
+      this.p_array = 0;
+      this.r_array = 0;
+      this.c_array = 0;
       this.idsession = "";
       this.authService.setidession("");
     }
 
-    updateSession(id){
+    updateSession(id, score){
       this.sqlite.create({
         name: 'data.db',
         location: 'default'
@@ -89,13 +109,13 @@ export class AboutPage {
       .then((db: SQLiteObject) => {
         let ids = id;
         let end = this.dateFormat.gettime();
-        this.remplir = "update A : " + ids;
+        this.remplir = "update : " + score;
 
         db.executeSql('CREATE TABLE IF NOT EXISTS session(id INTEGER PRIMARY KEY AUTOINCREMENT,id_phone,score,start,end,date,globalGPS)', {})
         .then(() => console.log('Executed SQL'))
         .catch(e => console.log(e));
 
-        db.executeSql('UPDATE session SET end = ? WHERE id = ?', [end,ids])
+        db.executeSql('UPDATE session SET end = ?, score = ? WHERE id = ?', [end,score,ids])
         .then(() => console.log('Executed SQL'))
         .catch(e => console.log(e));
       })
@@ -103,17 +123,34 @@ export class AboutPage {
     }
 
 
-    computeScore(){
-      this.updateSession(this.idsession);
+    stopsesion(){
+      let score =  this.computeScore();
+      this.updateSession(this.idsession, score);
       this.endsession();
+      this.navCtrl.setRoot(HomePage);
     }
 
-
-
+    computeScore():any{
+      let totalentity = this.p_array + this.r_array + this.c_array;
+      let p_purcent = this.p_array * 100 / totalentity;
+      let r_purcent = this.r_array * 100 / totalentity;
+      let c_purcent = this.c_array * 100 / totalentity;
+      return (100/3)*((1-p_purcent)+(r_purcent)+(2*c_purcent));
+    }
 
 
     addvalue(apexvalue){
       if (this.idsession != "") {
+        if (apexvalue == "P") {
+          this.p_array++;
+        } else {
+          if (apexvalue == "R") {
+              this.r_array++;
+          } else {
+            this.c_array++;
+          }
+        }
+
         this.sqlite.create({
           name: 'data.db',
           location: 'default'
@@ -132,7 +169,7 @@ export class AboutPage {
           .catch(e => console.log(e));
         })
         .catch(e => console.log(JSON.stringify(e)));
-        this.remplir = "add " + this.idsession;
+        this.remplir = "add " + this.idsession + " > "+apexvalue;
       } else {
         this.startsession();
       }
