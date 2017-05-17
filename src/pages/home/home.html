@@ -6,9 +6,8 @@
 
 <ion-content padding>
 
-  <button ion-button block  (click)="checkdatasession()">Test</button>
-  <button ion-button block  color="light" (click)="deletesql()">Delete Row</button>
-  <button ion-button block  color="secondary" (click)="deletetable()">Delete Table</button>
+
+  <button ion-button block  (click)="checkdatasession()">Afficher les sessions</button>
 
   <ion-list>
     <ion-item *ngFor="let y of dataList" >
@@ -26,5 +25,5 @@
     </ion-item>
   </ion-list>
 
-  <p>id : {{idphone}} / uuid : {{uuid}} {{testcheck}}</p>
+  <p>Info temp : id (<b>{{idphone}}</b>) | uuid (<b>{{uuid}}</b>)</p>
 </ion-content>

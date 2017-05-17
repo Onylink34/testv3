@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
+import { AlertController } from 'ionic-angular';
 
 //PAGES
-import {HomePage} from '../home/home';
+//import {HomePage} from '../home/home'; 
 
 //PROVIDERS
 import { Dateformat } from '../../providers/dateformat';
@@ -21,6 +22,7 @@ export class AboutPage {
   idsession = "";
   id_phone = "";
   score;
+  buttonClicked: boolean = false;
 
   p_array;
   r_array;
@@ -29,6 +31,7 @@ export class AboutPage {
   constructor(
     private sqlite: SQLite,
     public dateFormat: Dateformat,
+    private alertCtrl: AlertController,
     public locationTracker: LocationTracker,
     public authService:AuthService,
     public navCtrl:NavController) {
@@ -46,20 +49,21 @@ export class AboutPage {
       // console.log('ionViewDidEnter ENTER About Test');
       // this.locationTracker.startTracking();
     }
+
     ionViewWillLeave(){
       // console.log('ionViewWillLeave BYE About Test');
+      //this.stopsesion();
       this.locationTracker.stopTracking();
     }
 
     startsession(){
       if (this.idsession != "") {
         this.remplir = "continue " + this.idsession;
-
       } else {
         this.p_array = 0;
         this.r_array = 0;
         this.c_array = 0;
-
+        this.buttonClicked = true;
         this.sqlite.create({
           name: 'data.db',
           location: 'default'
@@ -127,7 +131,13 @@ export class AboutPage {
       let score =  this.computeScore();
       this.updateSession(this.idsession, score);
       this.endsession();
-      this.navCtrl.setRoot(HomePage);
+      let alert = this.alertCtrl.create({
+        title: 'End Session',
+        subTitle: 'Score : '+score,
+        buttons: ['Ok']
+      });
+      alert.present();
+      this.buttonClicked = false;
     }
 
     computeScore():any{
@@ -145,7 +155,7 @@ export class AboutPage {
           this.p_array++;
         } else {
           if (apexvalue == "R") {
-              this.r_array++;
+            this.r_array++;
           } else {
             this.c_array++;
           }
